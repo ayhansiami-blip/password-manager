@@ -64,6 +64,14 @@ Password: \'{main_password}\'
                 print('Your Passwords dosen\'t match, please try agian...')
     elif choice == '2':
         print('View Passwords')
+        storage = open("passwords.txt", "r")
+        readed_storage = storage.read()
+        if readed_storage == '':
+            print('No Passwords have been saved yet.')
+            storage.close()
+        elif readed_storage != '':
+            print(readed_storage)
+            storage.close()
     elif choice == '3':
         print('Search Password')
     elif choice == '4':
