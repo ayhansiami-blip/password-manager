@@ -13,37 +13,33 @@ Choose an option: ''')
         print('Add Password')
 
         while True:
-            website = input('''
-Which website do you want to set a password for?
-Available Websites:
-1. MoonKing.net (1)
-2. chatbot.tv (2)
-3. ayhan.com (3)
-''')
-            if website == '1':
-                website_choice = 'MoonKing.net'
-                print('Website: MoonKing.net')
-                break
-            elif website == '2':
-                website_choice = 'chatbot.tv'
-                print('Website: chatbot.tv')
-                break
-            elif website == '3':
-                # I defined this (website_choice) variable because you said you should not change the user input.
-                website_choice = 'ayhan.com'
-                print('Website: ayhan.com')
-                break
+            website_input = input('Enter your Website address: ')
+            website_input = website_input.lower()
+            if website_input.strip() == '':
+                print('Your Website panel cannot be empty...')
+            elif website_input.isdigit():
+                print('Your website cannot contain only digits...')
             else:
-                print('I didn\'t get that, Please try agian...')
-        user_name = input('Enter your Username: ')
+                print(f'Website: {website_input}')
+                break
+        while True:
+            user_name = input('Enter your Username: ')
+            if len(user_name) < 3:
+                print('Your username cannot be less then 3 charaters...')
+            elif len(user_name) > 30:
+                print('Your username cannot be more then 30 charaters...')
+            else:
+                print(f'Username: {user_name}')
+                break
         while True:
             password_input1 = input('Enter your Password: ')
-            password_input2 = input('Enter your password agian: ')
+            password_input2 = input('Enter your Password agian: ')
             if password_input1 == password_input2:
                 main_password = password_input1  # just for being clean for later
+                censored_password = len(main_password) * '*'
                 account_info = (f'''-------------------------------------
 
-Website: {website_choice}
+Website: {website_input}
 Username: {user_name}
 Password: {main_password}
 
@@ -53,10 +49,10 @@ Password: {main_password}
                 storage.write(account_info)
                 storage.close()
                 print(f'''
-You have succesfully difined a new Password for \'{website_choice}\' website,
-Website: \'{website_choice}\'
+You have succesfully difined a new Password for \'{website_input}\' website,
+Website: \'{website_input}\'
 Username: \'{user_name}\'
-Password: \'{main_password}\'
+Password: \'{censored_password}\'
 ''')  # This is ONLY and ONLY to show you that the user's username and password are stored!
 
                 break
@@ -64,19 +60,17 @@ Password: \'{main_password}\'
                 print('Your Passwords dosen\'t match, please try agian...')
     elif choice == '2':
         print('View Passwords')
-        storage = open("passwords.txt", "r")
-        readed_storage = storage.read()
-        if readed_storage == '':
-            print('No Passwords have been saved yet.')
-            storage.close()
-        elif readed_storage != '':
-            print(readed_storage)
-            storage.close()
+        try:
+            with open("passwords.txt", "r") as storage:
+                file_content = storage.read()
+                print(file_content)
+        except FileNotFoundError:
+            print('You haven\'t set a Password yet...')
     elif choice == '3':
         print('Search Password')
     elif choice == '4':
         print('Exit')
-        print('Thank you for using my program XD')
+        print('Exiting Password Manager...')
         break
     else:
         print('Didn\'t get that, Please try again.')
