@@ -10,7 +10,7 @@ while True:
 Choose an option: ''')
 
     if choice == '1':
-        print('Add Password')
+        print('<<Add Password>>')
 
         while True:
             website_input = input('Enter your Website address: ')
@@ -45,13 +45,13 @@ You have succesfully difined a new Password for \'{website_input}\' website,
 Website: \'{website_input}\'
 Username: \'{user_name}\'
 Password: \'{censored_password}\'
-''')  # This is ONLY and ONLY to show you that the user's username and password are stored!
+''')
 
                 break
             else:
                 print('Your Passwords dosen\'t match, please try agian...')
     elif choice == '2':
-        print('View Passwords')
+        print('<<View Passwords>>')
         try:
             with open("passwords.txt", "r", encoding="utf-8") as storage:
                 for line in storage:
@@ -64,7 +64,67 @@ Password: \'{censored_password}\'
         except FileNotFoundError:
             print('You haven\'t set a Password yet...')
     elif choice == '3':
-        print('Search Password')
+        print('<<Search Password>>')
+        exit_program = False
+        while True:
+            search_choice = input('''1.Search by Website
+2.Search by Username
+Choose an option: ''')
+            if search_choice == '1':
+                print('<Search by Website>')
+                searched_website = input('Website: ')
+                try:
+                    with open("passwords.txt", "r", encoding="utf-8") as storage:
+                        password_found = False
+                        for line in storage:
+                            website, username, password = line.split('|')
+                            if website != searched_website:
+                                continue
+                            elif website == searched_website:
+                                password_found = True
+                                print('------------------------------------------')
+                                print(f'Website: {website}')
+                                print(f'Uesrname: {username}')
+                                print(f"Password: {'*' * (len(password) - 1)}")
+                                print('------------------------------------------')
+                                show_password_choice = input(
+                                    'Show Password? ((Y)es, (N)o)')
+                                if show_password_choice.lower() == 'y':
+                                    print(
+                                        '------------------------------------------')
+                                    print(f'Website: {website}')
+                                    print(f'Uesrname: {username}')
+                                    print(f'Password: {password}')
+                                    print(
+                                        '------------------------------------------')
+                                    search_password_continue_choice = input(
+                                        'Do you want to continue to Search Password? ((Y)es, (N)o): ')
+                                    if search_password_continue_choice.lower() == 'y':
+                                        break
+                                    elif search_password_continue_choice.lower() == 'n':
+                                        exit_program = True
+                                        break
+                                    else:
+                                        print('Didn\'t get that...')
+                                elif show_password_choice.lower() == 'n':
+                                    search_password_continue_choice = input(
+                                        'Do you want to continue to Search Password? ((Y)es, (N)o): ')
+                                    if search_password_continue_choice.lower() == 'y':
+                                        break
+                                    elif search_password_continue_choice.lower() == 'n':
+                                        exit_program = True
+                                        break
+                                    else:
+                                        print('Didn\'t get that...')
+                        if not password_found:
+                            print('Psaword not found! ')
+                except FileNotFoundError:
+                    print('You haven\'t set a Password yet...')
+                if exit_program:
+                    break
+            elif search_choice == '2':
+                print('<Search by Username>')
+
     elif choice == '4':
         print('Exit')
         print('Exiting Password Manager...')
