@@ -37,17 +37,9 @@ Choose an option: ''')
             if password_input1 == password_input2:
                 main_password = password_input1  # just for being clean for later
                 censored_password = len(main_password) * '*'
-                account_info = (f'''-------------------------------------
-
-Website: {website_input}
-Username: {user_name}
-Password: {main_password}
-
--------------------------------------
-''')
-                storage = open('passwords.txt', 'a')
-                storage.write(account_info)
-                storage.close()
+                account_info = f'{website_input}|{user_name}|{main_password}\n'
+                with open("passwords.txt", "a", encoding="utf-8") as storage:
+                    storage.write(account_info)
                 print(f'''
 You have succesfully difined a new Password for \'{website_input}\' website,
 Website: \'{website_input}\'
@@ -61,9 +53,14 @@ Password: \'{censored_password}\'
     elif choice == '2':
         print('View Passwords')
         try:
-            with open("passwords.txt", "r") as storage:
-                file_content = storage.read()
-                print(file_content)
+            with open("passwords.txt", "r", encoding="utf-8") as storage:
+                for line in storage:
+                    website, username, password = line.split('|')
+                    print('------------------------------------------')
+                    print(f'Website: {website}')
+                    print(f'Uesrname: {username}')
+                    print(f"Password: {'*' * (len(password) - 1)}")
+                    print('------------------------------------------')
         except FileNotFoundError:
             print('You haven\'t set a Password yet...')
     elif choice == '3':
