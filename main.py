@@ -25,9 +25,9 @@ Choose an option: ''')
         while True:
             user_name = input('Enter your Username: ')
             if len(user_name) < 3:
-                print('Your username cannot be less then 3 charaters...')
+                print('Your username cannot be less then 3 characters...')
             elif len(user_name) > 30:
-                print('Your username cannot be more then 30 charaters...')
+                print('Your username cannot be more then 30 characters...')
             else:
                 print(f'Username: {user_name}')
                 break
@@ -41,7 +41,7 @@ Choose an option: ''')
                 with open("passwords.txt", "a", encoding="utf-8") as storage:
                     storage.write(account_info)
                 print(f'''
-You have succesfully difined a new Password for \'{website_input}\' website,
+You have successfully difined a new Password for \'{website_input}\' website,
 Website: \'{website_input}\'
 Username: \'{user_name}\'
 Password: \'{censored_password}\'
@@ -49,7 +49,7 @@ Password: \'{censored_password}\'
 
                 break
             else:
-                print('Your Passwords dosen\'t match, please try agian...')
+                print('Your Passwords doesn\'t match, please try agian...')
     elif choice == '2':
         print('<<View Passwords>>')
         try:
@@ -117,7 +117,7 @@ Choose an option: ''')
                                     else:
                                         print('Didn\'t get that...')
                         if not password_found:
-                            print('Psaword not found! ')
+                            print('Password not found! ')
                 except FileNotFoundError:
                     print('You haven\'t set a Password yet...')
                 if exit_program:
