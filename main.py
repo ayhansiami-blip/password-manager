@@ -62,7 +62,7 @@ Password: \'{censored_password}\'
                     print(f"Password: {'*' * (len(password) - 1)}")
                     print('------------------------------------------')
         except FileNotFoundError:
-            print('You haven\'t set a Password yet...')
+            print('You don\'t have any Password on this Website!')
     elif choice == '3':
         print('<<Search Password>>')
         exit_program = False
@@ -83,7 +83,7 @@ Choose an option: ''')
                             elif website == searched_website:
                                 password_found = True
                                 print('------------------------------------------')
-                                print(f'Website: {website}')
+                                print(f'Website: <<{website}>>')
                                 print(f'Uesrname: {username}')
                                 print(f"Password: {'*' * (len(password) - 1)}")
                                 print('------------------------------------------')
@@ -124,7 +124,57 @@ Choose an option: ''')
                     break
             elif search_choice == '2':
                 print('<Search by Username>')
-
+                seached_username = input('Username: ')
+                try:
+                    with open("passwords.txt", "r", encoding="utf-8") as storage:
+                        password_found = False
+                        for line in storage:
+                            website, username, password = line.split('|')
+                            if username != seached_username:
+                                continue
+                            elif username == seached_username:
+                                password_found = True
+                                print('------------------------------------------')
+                                print(f'Website: {website}')
+                                print(f'Uesrname: <<{username}>>')
+                                print(f"Password: {'*' * (len(password) - 1)}")
+                                print('------------------------------------------')
+                                show_password_choice = input(
+                                    'Show Password? ((Y)es, (N)o)')
+                                if show_password_choice.lower() == 'y':
+                                    print(
+                                        '------------------------------------------')
+                                    print(f'Website: {website}')
+                                    print(f'Uesrname: {username}')
+                                    print(f'Password: {password}')
+                                    print(
+                                        '------------------------------------------')
+                                    search_password_continue_choice = input(
+                                        'Do you want to continue to Search Password? ((Y)es, (N)o): ')
+                                    if search_password_continue_choice.lower() == 'y':
+                                        break
+                                    elif search_password_continue_choice.lower() == 'n':
+                                        exit_program = True
+                                        break
+                                    else:
+                                        print('Didn\'t get that...')
+                                elif show_password_choice.lower() == 'n':
+                                    search_password_continue_choice = input(
+                                        'Do you want to continue to Search Password? ((Y)es, (N)o): ')
+                                    if search_password_continue_choice.lower() == 'y':
+                                        break
+                                    elif search_password_continue_choice.lower() == 'n':
+                                        exit_program = True
+                                        break
+                                    else:
+                                        print('Didn\'t get that...')
+                        if not password_found:
+                            print(
+                                'You don\'t have any Password with this Username! ')
+                except FileNotFoundError:
+                    print('You haven\'t set a Password yet...')
+                if exit_program:
+                    break
     elif choice == '4':
         print('Exit')
         print('Exiting Password Manager...')
